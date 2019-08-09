@@ -1,4 +1,6 @@
 from django.db import models
+from enumchoicefield import EnumChoiceField
+from .enums import JobPositionType, SalaryFrequency
 
 
 class JobListing(models.Model):
@@ -12,10 +14,10 @@ class JobListing(models.Model):
         'common.Location',
         on_delete=models.PROTECT
     )
-    position_type = models.TextField(null=False, max_length=100)
+    position_type = EnumChoiceField(enum_class=JobPositionType, default=JobPositionType.FULLTIME)
     contract_length = models.IntegerField(null=True)
     salary = models.IntegerField(null=True)
-    salary_frequency = models.TextField(null=True, max_length=100)
+    salary_frequency = EnumChoiceField(enum_class=SalaryFrequency, default=SalaryFrequency.PERYEAR)
     languages = models.ManyToManyField(
         'common.ProgrammingLanguage',
         through='JobListingLanguage'
