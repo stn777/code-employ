@@ -10,9 +10,12 @@ class Applicant(models.Model):
         'common.Location', 
         on_delete=models.PROTECT
     )
-    date_of_birth = models.DateField(null=False)
     website_url = models.TextField(null=True)
     github_url = models.TextField(null=True)
+    languages = models.ManyToManyField(
+        'common.ProgrammingLanguage',
+        through='ApplicantLanguage'
+    )
 
 
 class ApplicantLanguage(models.Model):

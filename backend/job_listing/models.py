@@ -16,6 +16,14 @@ class JobListing(models.Model):
     contract_length = models.IntegerField(null=True)
     salary = models.IntegerField(null=True)
     salary_frequency = models.TextField(null=True, max_length=100)
+    languages = models.ManyToManyField(
+        'common.ProgrammingLanguage',
+        through='JobListingLanguage'
+    )
+    tags = models.ManyToManyField(
+        'common.Tag',
+        through='JobListingTag'
+    )
     expiry_date = models.DateTimeField(null=True, default=None)
     posted_date = models.DateTimeField(null=False, auto_now_add=True)
     modified_date = models.DateTimeField(null=True, auto_now=True)

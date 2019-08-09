@@ -3,7 +3,7 @@ from django.test import TestCase
 from rest_framework.test import APITestCase, APIClient
 from rest_framework.views import status
 from .models import JobListing
-from user.models import Company
+from company.models import Company
 from common.models import Location
 from .serializers import JobListingSerializer
 from .enums import JobPositionType, SalaryFrequency
