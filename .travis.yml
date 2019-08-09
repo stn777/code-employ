@@ -1,0 +1,31 @@
+language: python
+sudo: required
+
+services:
+  - postgresql
+
+addons:
+  postgresql: "11.2"
+
+env:
+  global:
+    - DB_HOST=localhost
+
+before_install: 
+  - sudo apt-get update
+  - sudo apt-get --yes remove postgresql\*
+  - sudo apt-get install -y postgresql-11 postgresql-client-11
+  - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
+  - sudo service postgresql restart 11  
+  - cd backend
+
+install:
+  - pip3 install -r requirements.txt
+
+before_script:
+  - psql -c 'create user codeemploy SUPERUSER LOGIN CREATEDB' -U postgres
+  - psql -c 'create database codeemploy' -U postgres
+
+script:
+  - python3 manage.py test
+
