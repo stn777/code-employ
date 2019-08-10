@@ -1,14 +1,18 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import JobListing
-from .serializers import JobListingSerializer
 from .services import JobListingService
+from .serializers import (
+    JobListingSerializer, JobListingSearchFilterSerializer, 
+    JobListingSearchResponseSerializer
+)
 
 
-class JobListingListView(APIView):
-    def get(self, request):
-        job_listings = JobListingService.get_job_listings()
-        serialized = JobListingSerializer(job_listings, many=True)
+class JobListingPagedListView(APIView):
+    def post(self, request):
+        search_filter = JobListingSearchFilterSerializer(request.data)
+        search_response = JobListingService.get_paged_job_listings(search_filter)
+        serialized = JobListingSearchResponseSerializer(search_response)
         return Response(serialized.data)
     
 

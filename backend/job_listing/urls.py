@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import JobListingListView, JobListingView
+from .views import (
+    JobListingView, JobListingPagedListView
+)
 
 
 urlpatterns = [
-    path('all', JobListingListView.as_view(), name="job-listings-all"),
+    path('paged', JobListingPagedListView.as_view(), name="job-listings-paged"),
     path('listing/<int:id>', JobListingView.as_view(), name="job-listing")
 ]

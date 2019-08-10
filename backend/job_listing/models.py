@@ -1,6 +1,7 @@
 from django.db import models
 from enumchoicefield import EnumChoiceField
 from .enums import JobPositionType, SalaryFrequency
+from common.managers import ModelManager
 
 
 class JobListing(models.Model):
@@ -29,6 +30,7 @@ class JobListing(models.Model):
     expiry_date = models.DateTimeField(null=True, default=None)
     posted_date = models.DateTimeField(null=False, auto_now_add=True)
     modified_date = models.DateTimeField(null=True, auto_now=True)
+    objects = ModelManager()
 
 
 class JobListingLanguage(models.Model):
