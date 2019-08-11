@@ -8,9 +8,11 @@ services:
     environment:
       - POSTGRES_USER=codeemploy
       - POSTGRES_DB=codeemploy
+  redis:
+    image: redis
   web:
     build: .
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 /src/manage.py runserver 0.0.0.0:8000'
+    command: python3 /src/manage.py runserver 0.0.0.0:8000
     environment:
       - DJANGO_SECRET=${DJANGO_SECRET}
       - DB_HOST=db
@@ -20,6 +22,23 @@ services:
       - 8000:8000
     depends_on:
       - db
+      - redis
+  celery:
+    build: .
+    command: celery -A code_employ worker -l info
+    volumes:
+      - .:/src
+    depends_on:
+      - db
+      - redis
+  celery-beat:
+    build: .
+    command: celery -A code_employ beat -l info
+    volumes:
+      - .:/src
+    depends_on:
+      - db
+      - redis
 
 volumes:
   postgres_data:
