@@ -6,9 +6,12 @@ from rest_framework.views import status
 from .models import JobListing, JobListingLanguage
 from .enums import JobPositionType, SalaryFrequency
 from company.models import Company
-from common.models import Location, ProgrammingLanguage
-from common.enums import LocationCountry, LocationState
 from common.utils import PagedResult
+from common.models import (
+    LocationStateCode, 
+    LocationCountryCode,
+    ProgrammingLanguage
+)
 from .serializers import (
     JobListingSerializer, JobListingSearchResponseSerializer
 )
@@ -24,7 +27,10 @@ class JobListingViewTest(APITestCase):
             company=Company.objects.get(id=1),
             job_title=job_title,
             description=description,
-            location=Location.objects.get(id=1),
+            city='Sydney',
+            state=LocationStateCode.objects.get(id=1),
+            country=LocationCountryCode.objects.get(id=1),
+            post_code='2000',
             position_type=position_type,
             contract_length=contract_length,
             salary=salary,
@@ -38,17 +44,25 @@ class JobListingViewTest(APITestCase):
     
     @classmethod
     def setUpTestData(cls):
-        Location.objects.create(
-            city="Melbourne",
-            state=LocationState.VIC,
-            country=LocationCountry.AU
+        country = LocationCountryCode.objects.create(
+            code="AU",
+            name="Australia"
+        )
+
+        state = LocationStateCode.objects.create(
+            country=LocationCountryCode.objects.get(id=country.id),
+            code="NSW",
+            name="New South Wales"
         )
 
         Company.objects.create(
             legal_name="Test Company",
             email="company@email.com",
             website_url="http://some.website.com/",
-            location=Location.objects.get(id=1),
+            city='Sydney',
+            state=LocationStateCode.objects.get(id=state.id),
+            country=LocationCountryCode.objects.get(id=country.id),
+            post_code='2000'
         )
 
         python = ProgrammingLanguage.objects.create(

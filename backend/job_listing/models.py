@@ -11,10 +11,6 @@ class JobListing(models.Model):
     )
     job_title = models.TextField(null=False, max_length=255)
     description = models.TextField(null=False)
-    location = models.ForeignKey(
-        'common.Location',
-        on_delete=models.PROTECT
-    )
     position_type = EnumChoiceField(enum_class=JobPositionType, default=JobPositionType.FULLTIME)
     contract_length = models.IntegerField(null=True)
     salary = models.IntegerField(null=True)
@@ -23,6 +19,16 @@ class JobListing(models.Model):
         'common.ProgrammingLanguage',
         through='JobListingLanguage'
     )
+    city = models.TextField(null=False, max_length=100)
+    state = models.ForeignKey(
+        'common.LocationStateCode',
+        on_delete=models.PROTECT
+    )
+    country = models.ForeignKey(
+        'common.LocationCountryCode',
+        on_delete=models.PROTECT
+    )
+    post_code = models.TextField(null=False, max_length=10)
     tags = models.ManyToManyField(
         'common.Tag',
         through='JobListingTag'

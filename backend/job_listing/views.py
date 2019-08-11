@@ -14,6 +14,9 @@ class JobListingPagedListView(APIView):
         search_response = JobListingService.get_paged_job_listings(search_filter)
         serialized = JobListingSearchResponseSerializer(search_response)
         return Response(serialized.data)
+
+    def delete(self, request, id):
+        pass
     
 
 class JobListingView(APIView):
@@ -21,4 +24,11 @@ class JobListingView(APIView):
         job_listing = JobListingService.get_job_listing_by_id(id)
         serialized = JobListingSerializer(job_listing)
         return Response(serialized.data)
-            
+
+
+class JobListingEditView(APIView):
+    def post(self, request):
+        pass
+
+    def put(self, request, id):
+        pass

@@ -1,16 +1,26 @@
 from rest_framework import serializers
-from .models import Location, ProgrammingLanguage
-
-
-class LocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
-        fields = '__all__'
+from .models import (
+    ProgrammingLanguage,
+    LocationStateCode,
+    LocationCountryCode
+)
 
 
 class ProgrammingLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgrammingLanguage
+        fields = '__all__'
+
+
+class LocationStateCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LocationStateCode
+        fields = '__all__'
+
+
+class LocationCountryCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LocationCountryCode
         fields = '__all__'
 
 

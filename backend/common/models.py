@@ -5,11 +5,18 @@ class Tag(models.Model):
     title = models.TextField(null=False, max_length=40)
 
 
-class Location(models.Model):
-    city = models.TextField(null=False, max_length=100)
-    state = models.TextField(null=False, max_length=100)
-    country = models.TextField(null=False, max_length=100)
-    post_code = models.TextField(null=False, max_length=10)
+class LocationCountryCode(models.Model):
+    code = models.TextField(null=False, max_length=10)
+    name = models.TextField(null=False, max_length=255)
+
+
+class LocationStateCode(models.Model):
+    country = models.ForeignKey(
+        LocationCountryCode,
+        on_delete=models.CASCADE
+    )
+    code = models.TextField(null=False, max_length=10)
+    name = models.TextField(null=False, max_length=255)
 
 
 class ProgrammingLanguage(models.Model):
