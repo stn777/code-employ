@@ -4,3 +4,4 @@ djangorestframework
 django-enumchoicefield
 celery
 redis
+requests
