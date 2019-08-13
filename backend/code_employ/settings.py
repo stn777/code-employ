@@ -43,7 +43,7 @@ CELERY_MAX_RETRIES = 5
 
 CELERY_BEAT_SCHEDULE = {
     'sync_country_codes': {
-        'task': 'apps.common.tasks.sync_country_codes',
+        'task': 'apps.common.tasks.insert_country_codes',
         'schedule': crontab(0, 0, day_of_month='1')
     }
 }
