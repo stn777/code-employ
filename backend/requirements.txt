@@ -5,3 +5,4 @@ django-enumchoicefield
 celery
 redis
 requests
+pycountry

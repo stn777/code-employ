@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import JobListing
-from .services import JobListingService
+from ..models import JobListing
+from ..services import JobListingService
 from .serializers import (
     JobListingSerializer, JobListingSearchFilterSerializer, 
     JobListingSearchResponseSerializer

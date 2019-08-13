@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Company
-from common.serializers import (
+from ..models import Company
+from apps.common.serializers import (
     LocationStateCodeSerializer,
     LocationCountryCodeSerializer
 )

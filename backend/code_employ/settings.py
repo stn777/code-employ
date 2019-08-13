@@ -43,7 +43,7 @@ CELERY_MAX_RETRIES = 5
 
 CELERY_BEAT_SCHEDULE = {
     'sync_country_codes': {
-        'task': 'common.tasks.sync_country_codes',
+        'task': 'apps.common.tasks.sync_country_codes',
         'schedule': crontab(0, 0, day_of_month='1')
     }
 }
@@ -58,11 +58,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'user',
-    'applicant',
-    'company',
-    'job_listing',
-    'common'
+    'apps.user',
+    'apps.applicant',
+    'apps.company',
+    'apps.job_listing',
+    'apps.common'
 ]
 
 MIDDLEWARE = [

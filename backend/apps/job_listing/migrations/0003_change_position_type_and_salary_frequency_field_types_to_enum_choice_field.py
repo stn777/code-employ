@@ -2,7 +2,7 @@
 
 from django.db import migrations
 import enumchoicefield.fields
-import job_listing.enums
+import apps.job_listing.enums
 
 
 class Migration(migrations.Migration):
@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='joblisting',
             name='position_type',
-            field=enumchoicefield.fields.EnumChoiceField(default=job_listing.enums.JobPositionType(4), enum_class=job_listing.enums.JobPositionType, max_length=8),
+            field=enumchoicefield.fields.EnumChoiceField(default=apps.job_listing.enums.JobPositionType(4), enum_class=apps.job_listing.enums.JobPositionType, max_length=8),
         ),
         migrations.AlterField(
             model_name='joblisting',
             name='salary_frequency',
-            field=enumchoicefield.fields.EnumChoiceField(default=job_listing.enums.SalaryFrequency(6), enum_class=job_listing.enums.SalaryFrequency, max_length=12),
+            field=enumchoicefield.fields.EnumChoiceField(default=apps.job_listing.enums.SalaryFrequency(6), enum_class=apps.job_listing.enums.SalaryFrequency, max_length=12),
         ),
     ]

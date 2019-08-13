@@ -15,11 +15,10 @@ class ProgrammingLanguageSerializer(serializers.ModelSerializer):
 class LocationStateCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = LocationStateCode
-        fields = ['id', 'code', 'name']
+        fields = ['id', 'code', 'name', 'type']
 
 
 class LocationCountryCodeSerializer(serializers.ModelSerializer):
-    states = LocationStateCodeSerializer(many=True)
     class Meta:
         model = LocationCountryCode
         fields = '__all__'

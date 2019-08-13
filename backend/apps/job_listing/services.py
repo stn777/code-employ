@@ -2,7 +2,7 @@ from django.http import Http404
 from django.db.models import Q
 from .models import JobListing
 from .enums import JobPositionType
-from common.utils import PagedResult
+from apps.common.utils import PagedResult
 
 
 class JobListingService():

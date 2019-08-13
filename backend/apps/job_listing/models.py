@@ -1,7 +1,7 @@
 from django.db import models
 from enumchoicefield import EnumChoiceField
 from .enums import JobPositionType, SalaryFrequency
-from common.managers import ModelManager
+from apps.common.managers import ModelManager
 
 
 class JobListing(models.Model):

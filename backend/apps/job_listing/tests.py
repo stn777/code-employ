@@ -5,14 +5,14 @@ from rest_framework.test import APITestCase, APIClient
 from rest_framework.views import status
 from .models import JobListing, JobListingLanguage
 from .enums import JobPositionType, SalaryFrequency
-from company.models import Company
-from common.utils import PagedResult
-from common.models import (
+from apps.company.models import Company
+from apps.common.utils import PagedResult
+from apps.common.models import (
     LocationStateCode, 
     LocationCountryCode,
     ProgrammingLanguage
 )
-from .serializers import (
+from .api.serializers import (
     JobListingSerializer, JobListingSearchResponseSerializer
 )
 
@@ -52,7 +52,8 @@ class JobListingViewTest(APITestCase):
         state = LocationStateCode.objects.create(
             country=LocationCountryCode.objects.get(id=country.id),
             code="NSW",
-            name="New South Wales"
+            name="New South Wales",
+            type="State"
         )
 
         Company.objects.create(
