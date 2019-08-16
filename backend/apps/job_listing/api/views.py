@@ -4,7 +4,7 @@ from ..models import JobListing
 from ..services import JobListingService
 from .serializers import (
     JobListingSerializer, JobListingSearchFilterSerializer, 
-    JobListingSearchResponseSerializer
+    JobListingSearchResponseSerializer, JobListingEditSerializer
 )
 
 
@@ -26,9 +26,15 @@ class JobListingView(APIView):
         return Response(serialized.data)
 
 
-class JobListingEditView(APIView):
+class JobListingNewView(APIView):
     def post(self, request):
-        pass
+        serialized = JobListingEditSerializer(request.data)
+        job_listing_id = JobListingService.create_job_listing(serialized)
+        return Response(job_listing_id)
 
+
+class JobListingEditView(APIView):
     def put(self, request, id):
-        pass
+        serialized = JobListingEditSerializer(request.data)
+        job_listing_id = JobListingService.update_job_listing(id, serialized)
+        return Response(job_listing_id)

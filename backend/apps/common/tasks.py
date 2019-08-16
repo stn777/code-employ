@@ -1,6 +1,6 @@
 import pycountry
 from celery import shared_task
-from .service import LocationService
+from .services import LocationService
 from .serializers import LocationCountryCodeSerializer, LocationStateCodeSerializer
 from django.conf import settings
 from code_employ.celery import TransactionTask
@@ -19,8 +19,8 @@ def insert_country_codes(self):
                     'name':country.name
                 }
             )
-            new_country = LocationService.insert_country_code(serialized_country)
-            for subdivision in pycountry.subdivisions.get(country_code=new_country.code):
+            new_country_id = LocationService.insert_country_code(serialized_country)
+            for subdivision in pycountry.subdivisions.get(country_code=country.data['code']):
                 if not any(existing.code == subdivision.code for existing in existing_states):
                     serialized_state = LocationCountryCodeSerializer(
                         {
@@ -29,5 +29,5 @@ def insert_country_codes(self):
                             'type':subdivision.type
                         }
                     )
-                new_state = LocationService.insert_state_code(new_country, serialized_state)
+                LocationService.insert_state_code(new_country_id, serialized_state)
 

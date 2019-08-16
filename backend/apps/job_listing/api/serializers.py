@@ -23,14 +23,17 @@ class JobListingEditSerializer(serializers.Serializer):
     company_id = serializers.IntegerField()
     job_title = serializers.CharField(max_length=255)
     description = serializers.CharField()
-    location_same_as_company = serializers.BooleanField(default=False)
     position_type = serializers.IntegerField()
-    contract_length = serializers.IntegerField()
-    salary = serializers.IntegerField()
-    salary_frequency = serializers.IntegerField()
-    language_ids = serializers.ListField(
+    contract_length = serializers.IntegerField(required=False)
+    salary = serializers.IntegerField(required=False)
+    salary_frequency = serializers.IntegerField(required=False)
+    country = serializers.IntegerField()
+    state = serializers.IntegerField()
+    city = serializers.CharField(max_length=100)
+    post_code = serializers.CharField(max_length=10)
+    languages = serializers.ListField(
         child=serializers.IntegerField()
-    ),
+    )
     tags = serializers.ListField(
         child=serializers.CharField(max_length=40)
     )

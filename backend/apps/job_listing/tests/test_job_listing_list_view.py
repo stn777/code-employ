@@ -1,10 +1,15 @@
+from mixer.backend.django import mixer
 from django.urls import reverse
 from django.test import TestCase
+from django.db import transaction
 from django.db.models import Q
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITransactionTestCase, APIClient
 from rest_framework.views import status
-from .models import JobListing, JobListingLanguage
-from .enums import JobPositionType, SalaryFrequency
+from ..models import JobListing, JobListingLanguage
+from ..api.serializers import (
+    JobListingSerializer, JobListingSearchResponseSerializer
+)
+from ..enums import JobPositionType, SalaryFrequency
 from apps.company.models import Company
 from apps.common.utils import PagedResult
 from apps.common.models import (
@@ -12,24 +17,22 @@ from apps.common.models import (
     LocationCountryCode,
     ProgrammingLanguage
 )
-from .api.serializers import (
-    JobListingSerializer, JobListingSearchResponseSerializer
-)
 
 
-class JobListingViewTest(APITestCase):
+class JobListingListViewTest(APITransactionTestCase):
     client = APIClient()
+    reset_sequences = True
 
     @staticmethod
-    def create_job_listing(job_title, description, position_type, contract_length, 
-                           salary, salary_frequency, language_id):
+    def create_job_listing(company_id, job_title, description, country_id, state_id, 
+                           position_type, contract_length, salary, salary_frequency, language_id):
         job_listing = JobListing.objects.create(
-            company=Company.objects.get(id=1),
+            company_id=company_id,
             job_title=job_title,
             description=description,
             city='Sydney',
-            state=LocationStateCode.objects.get(id=1),
-            country=LocationCountryCode.objects.get(id=1),
+            state_id=state_id,
+            country_id=country_id,
             post_code='2000',
             position_type=position_type,
             contract_length=contract_length,
@@ -38,45 +41,24 @@ class JobListingViewTest(APITestCase):
         )
 
         JobListingLanguage.objects.create(
-            job_listing=JobListing.objects.get(id=job_listing.id),
-            language=ProgrammingLanguage.objects.get(id=language_id)
+            job_listing_id=job_listing.id,
+            language_id=language_id
         )
     
-    @classmethod
-    def setUpTestData(cls):
-        country = LocationCountryCode.objects.create(
-            code="AU",
-            name="Australia"
-        )
+    def setUp(self):
+        country = mixer.blend(LocationCountryCode)
+        state = mixer.blend(LocationStateCode, country_id=country.id)
+        company = mixer.blend(Company, state_id=state.id, country_id=country.id)
 
-        state = LocationStateCode.objects.create(
-            country=LocationCountryCode.objects.get(id=country.id),
-            code="NSW",
-            name="New South Wales",
-            type="State"
-        )
+        python = mixer.blend(ProgrammingLanguage, name='Python')
+        golang = mixer.blend(ProgrammingLanguage, name='Golang')
 
-        Company.objects.create(
-            legal_name="Test Company",
-            email="company@email.com",
-            website_url="http://some.website.com/",
-            city='Sydney',
-            state=LocationStateCode.objects.get(id=state.id),
-            country=LocationCountryCode.objects.get(id=country.id),
-            post_code='2000'
-        )
-
-        python = ProgrammingLanguage.objects.create(
-            name="Python"
-        )
-
-        golang = ProgrammingLanguage.objects.create(
-            name="Golang"
-        )
-
-        cls.create_job_listing(
-            "Senior Python Django developer",
-            "Some description",
+        self.create_job_listing(
+            company.id,
+            'Senior Python Django developer',
+            'Some description',
+            country.id,
+            state.id,
             JobPositionType.CONTRACT,
             12,
             850,
@@ -84,9 +66,12 @@ class JobListingViewTest(APITestCase):
             python.id
         )
 
-        cls.create_job_listing(
-            "Mid-senior Python Flask developer",
-            "Some description",
+        self.create_job_listing(
+            company.id,
+            'Mid-senior Python Flask developer',
+            'Some description',
+            country.id,
+            state.id,
             JobPositionType.FULLTIME,
             None,
             110000,
@@ -94,9 +79,12 @@ class JobListingViewTest(APITestCase):
             python.id
         )
 
-        cls.create_job_listing(
-            "Junior Golang Full-stack developer",
-            "Some description",
+        self.create_job_listing(
+            company.id,
+            'Junior Golang Full-stack developer',
+            'Some description',
+            country.id,
+            state.id,
             JobPositionType.CASUAL,
             None,
             40,
@@ -105,25 +93,7 @@ class JobListingViewTest(APITestCase):
         )
 
 
-class GetJobListingsTests(JobListingViewTest):
-
-    def test_get_job_listing_by_id(self):
-        """
-        This test asserts that a specific JobListing record added during
-        setUp will be retrieved and serialized when making a GET request
-        to the job-listings/{id} endpoint.
-        """
-
-        response = self.client.get(
-            reverse("job-listing", kwargs={'id':2})
-        )
-
-        expected = JobListing.objects.get(id=2)
-        serialised = JobListingSerializer(expected)
-
-        self.assertEqual(response.data, serialised.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
+class GetJobListingListTests(JobListingListViewTest):
 
     def test_paged_job_listings_no_filter(self):
         """
@@ -139,7 +109,7 @@ class GetJobListingsTests(JobListingViewTest):
         }
 
         response = self.client.post(
-            reverse("job-listings-paged"),
+            reverse('job-listings-paged'),
             data=request_body
         )
         
@@ -179,7 +149,7 @@ class GetJobListingsTests(JobListingViewTest):
         }
 
         response = self.client.post(
-            reverse("job-listings-paged"),
+            reverse('job-listings-paged'),
             data=request_body
         )
         
@@ -219,7 +189,7 @@ class GetJobListingsTests(JobListingViewTest):
         }
 
         response = self.client.post(
-            reverse("job-listings-paged"),
+            reverse('job-listings-paged'),
             data=request_body
         )
         
