@@ -3,10 +3,9 @@ from django.urls import reverse
 from rest_framework.test import APITransactionTestCase, APIClient
 from rest_framework.views import status
 from ..models import JobListing
-from ..api.serializers import JobListingSerializer
 from apps.company.models import Company
 from apps.common.models import (
-    LocationStateCode, 
+    LocationStateCode,
     LocationCountryCode,
     ProgrammingLanguage
 )
@@ -15,14 +14,14 @@ from apps.common.models import (
 class JobListingEditTest(APITransactionTestCase):
     client = APIClient()
     reset_sequences = True
-    
+
     def setUp(self):
         country = mixer.blend(LocationCountryCode)
         state = mixer.blend(LocationStateCode, country_id=country.id)
         company = mixer.blend(Company, state_id=state.id, country_id=country.id)
         ProgrammingLanguage.objects.create(name="Python")
 
-        job_listing = mixer.blend(
+        mixer.blend(
             JobListing,
             job_title='Python developer',
             company_id=company.id,
@@ -38,7 +37,7 @@ class EditJobListingTests(JobListingEditTest):
         This test asserts that a JobListing record can be created
         by making a POST request to the job-listings/new endpoint.
         """
-        
+
         request_body = {
             'company_id': 1,
             'job_title': 'Python developer',
@@ -88,10 +87,10 @@ class EditJobListingTests(JobListingEditTest):
         self.assertEqual(existing.job_title, 'Python developer')
 
         response = self.client.put(
-            reverse("job-listing-edit", kwargs={'id':1}), 
+            reverse("job-listing-edit", kwargs={'id': 1}),
             data=request_body
         )
-        
+
         existing = JobListing.objects.get(id=1)
         self.assertEqual(existing.job_title, 'Java developer')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

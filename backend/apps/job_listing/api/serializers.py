@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from ..models import JobListing
 from apps.company.api.serializers import CompanySerializer
-from apps.common.serializers import (
-    ProgrammingLanguageSerializer, PaginationFilterSerializer, 
+from apps.common.api.serializers import (
+    ProgrammingLanguageSerializer, PaginationFilterSerializer,
     PagedResponseSerializer, LocationStateCodeSerializer,
     LocationCountryCodeSerializer
 )
