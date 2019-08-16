@@ -2,7 +2,7 @@ from .models import Company
 from django.http import Http404
 
 
-class CompanyService():
+class CompanySelector():
 
     @staticmethod
     def get_all_companies() -> list(Company):
