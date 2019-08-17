@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APITransactionTestCase, APIClient
 from rest_framework.views import status
 from ..models import JobListing
-from ..enums import JobListingStatus
+from ..enums import JobListingState
 from apps.company.models import Company
 from apps.common.models import (
     LocationStateCode,
@@ -25,7 +25,7 @@ class JobListingDeleteTest(APITransactionTestCase):
             company=company,
             country=country,
             state=state,
-            status=JobListingStatus.DRAFT
+            status=JobListingState.DRAFT
         )
 
         mixer.blend(
@@ -33,7 +33,7 @@ class JobListingDeleteTest(APITransactionTestCase):
             company=company,
             country=country,
             state=state,
-            status=JobListingStatus.PUBLISHED
+            status=JobListingState.PUBLISHED
         )
 
 

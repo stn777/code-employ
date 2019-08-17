@@ -5,7 +5,8 @@ from ..business.services import JobListingService
 from ..business.selectors import JobListingSelector
 from .serializers import (
     JobListingSerializer, JobListingSearchFilterSerializer,
-    JobListingSearchResponseSerializer, JobListingEditSerializer
+    JobListingSearchResponseSerializer, JobListingEditSerializer,
+    JobListingPublishSerializer
 )
 
 
@@ -46,9 +47,11 @@ class JobListingDeleteView(APIView):
 
 class JobListingPublishView(APIView):
     def put(self, request, id):
-        pass
+        serialized = JobListingPublishSerializer(request.data)
+        JobListingService.pre_publish_job_listing(id, serialized)
+        return Response(status=status.HTTP_200_OK)
 
 
-class JobListingActivateView(APIView):
+class JobListingCloseView(APIView):
     def put(self, request, id):
         pass

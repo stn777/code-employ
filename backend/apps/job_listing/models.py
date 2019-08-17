@@ -1,7 +1,8 @@
 from django.db import models
+from django_fsm import FSMIntegerField, transition
 from enumchoicefield import EnumChoiceField
 from apps.common.managers import ModelManager
-from .enums import JobPositionType, SalaryFrequency, JobListingStatus
+from .enums import JobPositionType, SalaryFrequency, JobListingState
 
 
 class JobListing(models.Model):
@@ -39,15 +40,52 @@ class JobListing(models.Model):
         'common.Tag',
         through='JobListingTag'
     )
-    status = EnumChoiceField(
-        enum_class=JobListingStatus,
-        default=JobListingStatus.DRAFT
-    )
+    status = FSMIntegerField(default=JobListingState.DRAFT)
     publish_date = models.DateTimeField(null=True)
     expiry_date = models.DateTimeField(null=True)
     posted_date = models.DateTimeField(null=False, auto_now_add=True)
     modified_date = models.DateTimeField(null=True, auto_now=True)
     objects = ModelManager()
+
+    @transition(
+        field=status,
+        source=JobListingState.DRAFT,
+        target=JobListingState.PREPUBLISH
+    )
+    def pre_publish(self):
+        pass
+
+    @transition(
+        field=status,
+        source=JobListingState.PREPUBLISH,
+        target=JobListingState.PUBLISHED
+    )
+    def publish(self):
+        pass
+
+    @transition(
+        field=status,
+        source=JobListingState.PUBLISHED,
+        target=JobListingState.EXPIRED
+    )
+    def expire(self):
+        pass
+
+    @transition(
+        field=status,
+        source=JobListingState.PUBLISHED,
+        target=JobListingState.CLOSED
+    )
+    def close(self):
+        pass
+
+    @transition(
+        field=status,
+        source=[JobListingState.EXPIRED, JobListingState.CLOSED],
+        target=JobListingState.ARCHIVED,
+    )
+    def archive(self):
+        pass
 
 
 class JobListingLanguage(models.Model):

@@ -52,3 +52,8 @@ class JobListingSearchFilterSerializer(PaginationFilterSerializer):
 
 class JobListingSearchResponseSerializer(PagedResponseSerializer):
     items = JobListingSerializer(many=True)
+
+
+class JobListingPublishSerializer(serializers.Serializer):
+    publish_date = serializers.DateTimeField()
+    expiry_date = serializers.DateTimeField()

@@ -1,10 +1,14 @@
 from typing import List
+from django_fsm import can_proceed
 from rest_framework.exceptions import APIException
 from apps.common.business.selectors import TagSelector
 from .selectors import JobListingSelector
 from ..models import JobListing, JobListingLanguage, JobListingTag
-from ..enums import JobPositionType, SalaryFrequency, JobListingStatus
-from ..api.serializers import JobListingEditSerializer
+from ..enums import JobPositionType, SalaryFrequency, JobListingState
+from ..api.serializers import (
+    JobListingEditSerializer,
+    JobListingPublishSerializer
+)
 
 
 class JobListingService():
@@ -24,9 +28,17 @@ class JobListingService():
     @staticmethod
     def delete_job_listing(id: int):
         job_listing = JobListingSelector.get_job_listing_by_id(id)
-        if job_listing.status != JobListingStatus.DRAFT:
+        if job_listing.status != JobListingState.DRAFT:
             raise APIException("Cannot delete this job listing, as it is no longer a draft.")
         JobListing.objects.get(id=id).delete()
+
+    @staticmethod
+    def pre_publish_job_listing(id: int, serializer: JobListingPublishSerializer):
+        job_listing = JobListingSelector.get_job_listing_by_id(id)
+        if not can_proceed(job_listing.pre_publish):
+            raise APIException("Cannot prepare this job listing for publishing")
+        job_listing.pre_publish()
+        job_listing.save()
 
     @staticmethod
     def _save_job_listing(job_listing: JobListing, serializer: JobListingEditSerializer) -> int:

@@ -1,11 +1,22 @@
+from enumfields import EnumIntegerField
 from enumchoicefield import ChoiceEnum
 
 
-class JobListingStatus(ChoiceEnum):
-    DRAFT = 'Draft'
-    PUBLISHED = 'Published'
-    EXPIRED = 'Expired'
-    CLOSED = 'Closed'
+class JobListingState(EnumIntegerField):
+    DRAFT = 1
+    PREPUBLISH = 2
+    PUBLISHED = 3
+    EXPIRED = 4
+    CLOSED = 5
+    ARCHIVED = 6
+
+    class Labels:
+        DRAFT = 'Draft'
+        PREPUBLISH = 'Queued for publish'
+        PUBLISHED = 'Published'
+        EXPIRED = 'Expired'
+        CLOSED = 'Closed'
+        ARCHIVED = 'Archived'
 
 
 class JobPositionType(ChoiceEnum):
