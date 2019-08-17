@@ -1,8 +1,9 @@
 from typing import List
+from rest_framework.exceptions import APIException
 from apps.common.business.selectors import TagSelector
 from .selectors import JobListingSelector
 from ..models import JobListing, JobListingLanguage, JobListingTag
-from ..enums import JobPositionType, SalaryFrequency
+from ..enums import JobPositionType, SalaryFrequency, JobListingStatus
 from ..api.serializers import JobListingEditSerializer
 
 
@@ -19,6 +20,13 @@ class JobListingService():
         existing_listing = JobListingSelector.get_job_listing_by_id(id)
         JobListingService._save_job_listing(existing_listing, serializer)
         return id
+
+    @staticmethod
+    def delete_job_listing(id: int):
+        job_listing = JobListingSelector.get_job_listing_by_id(id)
+        if job_listing.status != JobListingStatus.DRAFT:
+            raise APIException("Cannot delete this job listing, as it is no longer a draft.")
+        JobListing.objects.get(id=id).delete()
 
     @staticmethod
     def _save_job_listing(job_listing: JobListing, serializer: JobListingEditSerializer) -> int:

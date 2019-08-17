@@ -1,6 +1,13 @@
 from enumchoicefield import ChoiceEnum
 
 
+class JobListingStatus(ChoiceEnum):
+    DRAFT = 'Draft'
+    PUBLISHED = 'Published'
+    EXPIRED = 'Expired'
+    CLOSED = 'Closed'
+
+
 class JobPositionType(ChoiceEnum):
     CASUAL = 'Casual'
     CONTRACT = 'Contract'

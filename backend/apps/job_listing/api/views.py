@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 from ..business.services import JobListingService
 from ..business.selectors import JobListingSelector
 from .serializers import (
@@ -15,9 +16,6 @@ class JobListingPagedListView(APIView):
         serialized = JobListingSearchResponseSerializer(search_response)
         return Response(serialized.data)
 
-    def delete(self, request, id):
-        pass
-
 
 class JobListingView(APIView):
     def get(self, request, id):
@@ -26,7 +24,7 @@ class JobListingView(APIView):
         return Response(serialized.data)
 
 
-class JobListingNewView(APIView):
+class JobListingCreateView(APIView):
     def post(self, request):
         serialized = JobListingEditSerializer(request.data)
         job_listing_id = JobListingService.create_job_listing(serialized)
@@ -38,3 +36,19 @@ class JobListingEditView(APIView):
         serialized = JobListingEditSerializer(request.data)
         job_listing_id = JobListingService.update_job_listing(id, serialized)
         return Response(job_listing_id)
+
+
+class JobListingDeleteView(APIView):
+    def delete(self, request, id):
+        JobListingService.delete_job_listing(id)
+        return Response(status=status.HTTP_200_OK)
+
+
+class JobListingPublishView(APIView):
+    def put(self, request, id):
+        pass
+
+
+class JobListingActivateView(APIView):
+    def put(self, request, id):
+        pass
