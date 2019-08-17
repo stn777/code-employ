@@ -15,4 +15,3 @@ class SalaryFrequency(ChoiceEnum):
     PERFORTNIGHT = 'Per-fortnight'
     PERMONTH = 'Per-month'
     PERYEAR = 'Per-year'
-

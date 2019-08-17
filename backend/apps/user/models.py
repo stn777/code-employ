@@ -10,4 +10,3 @@ class User(models.Model):
     date_of_birth = models.DateField(null=False)
     date_inactive = models.DateTimeField(null=True, default=None)
     created_date = models.DateTimeField(null=False, auto_now_add=True)
-

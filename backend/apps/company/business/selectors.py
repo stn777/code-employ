@@ -1,4 +1,4 @@
-from .models import Company
+from ..models import Company
 from django.http import Http404
 
 

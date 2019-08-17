@@ -7,7 +7,7 @@ class Company(models.Model):
     website_url = models.TextField(null=True)
     city = models.TextField(null=False, max_length=100)
     state = models.ForeignKey(
-        'common.LocationStateCode', 
+        'common.LocationStateCode',
         on_delete=models.PROTECT
     )
     country = models.ForeignKey(

@@ -11,10 +11,16 @@ class JobListing(models.Model):
     )
     job_title = models.TextField(null=False, max_length=255)
     description = models.TextField(null=False)
-    position_type = EnumChoiceField(enum_class=JobPositionType, default=JobPositionType.FULLTIME)
+    position_type = EnumChoiceField(
+        enum_class=JobPositionType,
+        default=JobPositionType.FULLTIME
+    )
     contract_length = models.IntegerField(null=True)
     salary = models.IntegerField(null=True)
-    salary_frequency = EnumChoiceField(enum_class=SalaryFrequency, default=SalaryFrequency.PERYEAR)
+    salary_frequency = EnumChoiceField(
+        enum_class=SalaryFrequency,
+        default=SalaryFrequency.PERYEAR
+    )
     languages = models.ManyToManyField(
         'common.ProgrammingLanguage',
         through='JobListingLanguage'
@@ -48,7 +54,7 @@ class JobListingLanguage(models.Model):
         'common.ProgrammingLanguage',
         on_delete=models.CASCADE
     )
-    
+
 
 class JobListingRequiredDocument(models.Model):
     job_listing = models.ForeignKey(
@@ -87,7 +93,7 @@ class JobListingResponse(models.Model):
 class JobListingResponseOutcome(models.Model):
     job_listing_response = models.ForeignKey(
         JobListingResponse,
-        on_delete=models.PROTECT  
+        on_delete=models.PROTECT
     )
     outcome = models.TextField(null=False, max_length=100)
     outcome_comments = models.TextField(null=False)

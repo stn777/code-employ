@@ -6,22 +6,21 @@ from ..models import JobListing
 from ..api.serializers import JobListingSerializer
 from apps.company.models import Company
 from apps.common.models import (
-    LocationStateCode, 
-    LocationCountryCode,
-    ProgrammingLanguage
+    LocationStateCode,
+    LocationCountryCode
 )
 
 
 class JobListingViewTest(APITransactionTestCase):
     client = APIClient()
     reset_sequences = True
-    
+
     def setUp(self):
         country = mixer.blend(LocationCountryCode)
         state = mixer.blend(LocationStateCode, country_id=country.id)
         company = mixer.blend(Company, state_id=state.id, country_id=country.id)
 
-        job_listings = mixer.cycle(2).blend(
+        mixer.cycle(2).blend(
             JobListing,
             company=company,
             country=country,
@@ -39,7 +38,7 @@ class GetJobListingsTests(JobListingViewTest):
         """
 
         response = self.client.get(
-            reverse("job-listing", kwargs={'id':2})
+            reverse("job-listing", kwargs={'id': 2})
         )
 
         expected = JobListing.objects.get(id=2)
