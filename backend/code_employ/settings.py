@@ -45,6 +45,10 @@ CELERY_BEAT_SCHEDULE = {
     'sync_country_codes': {
         'task': 'apps.common.tasks.insert_country_codes',
         'schedule': crontab(0, 0, day_of_month='1')
+    },
+    'publish_job_listings': {
+        'task': 'apps.job_listing.tasks.publish_job_listings',
+        'schedule': crontab(hour='*', minute='1')
     }
 }
 

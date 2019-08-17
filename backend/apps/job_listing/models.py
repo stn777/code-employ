@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django_fsm import FSMIntegerField, transition
 from enumchoicefield import EnumChoiceField
@@ -47,6 +48,9 @@ class JobListing(models.Model):
     modified_date = models.DateTimeField(null=True, auto_now=True)
     objects = ModelManager()
 
+    def is_ready_for_publish(self):
+        return self.publish_date <= datetime.now()
+
     @transition(
         field=status,
         source=JobListingState.DRAFT,
@@ -58,7 +62,8 @@ class JobListing(models.Model):
     @transition(
         field=status,
         source=JobListingState.PREPUBLISH,
-        target=JobListingState.PUBLISHED
+        target=JobListingState.PUBLISHED,
+        conditions=[is_ready_for_publish]
     )
     def publish(self):
         pass

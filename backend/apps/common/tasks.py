@@ -2,7 +2,7 @@ import pycountry
 from django.conf import settings
 from celery import shared_task
 from code_employ.celery import TransactionTask
-from .business.services import LocationService
+from .business.services import LocationService, LocationSelector
 from .api.serializers import (
     LocationCountryCodeSerializer,
     LocationStateCodeSerializer
@@ -11,8 +11,8 @@ from .api.serializers import (
 
 @shared_task(base=TransactionTask, bind=True, max_retries=settings.CELERY_MAX_RETRIES)
 def insert_country_codes(self):
-    existing_countries = LocationService.get_country_codes()
-    existing_states = LocationService.get_state_codes()
+    existing_countries = LocationSelector.get_country_codes()
+    existing_states = LocationSelector.get_state_codes()
 
     for country in pycountry.countries:
         if not any(existing.code == country.alpha_2 for existing in existing_countries):

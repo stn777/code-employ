@@ -1,7 +1,8 @@
+from typing import List
 from django.http import Http404
 from django.db.models import Q
 from apps.common.utils import PagedResult
-from ..enums import JobPositionType
+from ..enums import JobPositionType, JobListingState
 from ..models import JobListing
 from ..api.serializers import JobListingSearchFilterSerializer
 
@@ -14,6 +15,10 @@ class JobListingSelector():
             return JobListing.objects.get(id=id)
         except JobListing.DoesNotExist:
             raise Http404(f"JobListing with id {id} could not be found")
+
+    @staticmethod
+    def get_job_listings_by_status(status: JobListingState) -> List[JobListing]:
+        return JobListing.objects.filter(status=status).all()
 
     @staticmethod
     def get_paged_job_listings(filter: JobListingSearchFilterSerializer) -> PagedResult:
