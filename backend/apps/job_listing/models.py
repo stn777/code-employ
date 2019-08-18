@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime, date, timedelta
 from django_fsm import FSMIntegerField, transition
 from enumchoicefield import EnumChoiceField
 from apps.common.managers import ModelManager
@@ -48,6 +49,15 @@ class JobListing(models.Model):
     modified_date = models.DateTimeField(null=True, auto_now=True)
     objects = ModelManager()
 
+    def can_publish(self):
+        return self.date_to_publish <= datetime.now()
+
+    def can_expire(self):
+        return self.date_to_expire <= date.today()
+    
+    def can_archive(self):
+        return self.closed_date <= (datetime.now() - timedelta(days=30))
+
     @transition(
         field=status,
         source=JobListingState.DRAFT,
@@ -59,7 +69,8 @@ class JobListing(models.Model):
     @transition(
         field=status,
         source=JobListingState.PREPUBLISH,
-        target=JobListingState.PUBLISHED
+        target=JobListingState.PUBLISHED,
+        conditions=[can_publish]
     )
     def publish(self):
         pass
@@ -67,7 +78,8 @@ class JobListing(models.Model):
     @transition(
         field=status,
         source=JobListingState.PUBLISHED,
-        target=JobListingState.EXPIRED
+        target=JobListingState.EXPIRED,
+        conditions=[can_expire]
     )
     def expire(self):
         pass
@@ -84,6 +96,7 @@ class JobListing(models.Model):
         field=status,
         source=[JobListingState.EXPIRED, JobListingState.CLOSED],
         target=JobListingState.ARCHIVED,
+        conditions=[can_archive]
     )
     def archive(self):
         pass
