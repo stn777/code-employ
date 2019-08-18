@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'apps.applicant',
     'apps.company',
     'apps.job_listing',
+    'apps.job_listing_response',
     'apps.common'
 ]
 
