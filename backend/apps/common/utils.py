@@ -1,8 +1,4 @@
-from collections import namedtuple
 import requests
-
-
-PagedResult = namedtuple('PagedResult', ['items', 'record_count'])
 
 
 def make_http_get_request(url, params=None):

@@ -2,7 +2,7 @@ from typing import List
 from datetime import datetime, timedelta
 from django.http import Http404
 from django.db.models import Q
-from apps.common.utils import PagedResult
+from apps.common.managers import PagedResult
 from ..enums import JobPositionType, JobListingState
 from ..models import JobListing
 from ..api.serializers import JobListingSearchFilterSerializer
@@ -61,7 +61,4 @@ class JobListingSelector():
         if 'languages' in filter.data:
             query &= Q(languages__id__in=filter.data['languages'])
 
-        job_listings = JobListing.objects.get_paginated(query, filter)
-        record_count = JobListing.objects.all().count()
-
-        return PagedResult(items=job_listings, record_count=record_count)
+        return JobListing.objects.get_paginated(query, filter)

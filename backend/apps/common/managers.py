@@ -1,4 +1,8 @@
 from django.db import models
+from collections import namedtuple
+
+
+PagedResult = namedtuple('PagedResult', ['items', 'record_count'])
 
 
 class ModelManager(models.Manager):
@@ -14,6 +18,9 @@ class ModelManager(models.Manager):
         limit = items_per_page * current_page
         offset = limit - items_per_page
 
-        return super(ModelManager, self).get_queryset().filter(query).order_by(
+        items = super(ModelManager, self).get_queryset().filter(query).order_by(
             f'{"" if order_direction else "-"}{order_by_column}'
         )[offset:limit]
+        record_count = super(ModelManager, self).get_queryset().all().count()
+
+        return PagedResult(items=items, record_count=record_count)

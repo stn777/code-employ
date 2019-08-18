@@ -7,7 +7,7 @@ from ..models import JobListing, JobListingLanguage
 from ..api.serializers import JobListingSearchResponseSerializer
 from ..enums import JobPositionType, SalaryFrequency
 from apps.company.models import Company
-from apps.common.utils import PagedResult
+from apps.common.managers import PagedResult
 from apps.common.models import (
     LocationStateCode,
     LocationCountryCode,
