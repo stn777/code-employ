@@ -38,6 +38,8 @@ class JobListingService():
         if not can_proceed(job_listing.pre_publish):
             raise APIException("Cannot prepare this job listing for publishing")
         job_listing.pre_publish()
+        job_listing.date_to_publish = serializer.data.get('date_to_publish')
+        job_listing.date_to_expire = serializer.data.get('date_to_expire')
         job_listing.save()
 
     @staticmethod

@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from django.utils import timezone
+from datetime import timedelta, date
 from mixer.backend.django import mixer
 from django.urls import reverse
 from rest_framework.test import APITransactionTestCase, APIClient
@@ -38,12 +39,9 @@ class PublishJobListingsTests(JobListingPublishViewTest):
         a PUT request to the job-listings/publish/{id} endpoint.
         """
 
-        publish_date = datetime.now()
-        expiry_date = datetime.now() + timedelta(days=1)
-
         request_body = {
-            'publish_date': publish_date,
-            'expiry_date': expiry_date
+            'date_to_publish': timezone.now(),
+            'date_to_expire': date.today() + timedelta(days=1)
         }
 
         response = self.client.put(

@@ -1,4 +1,5 @@
 from typing import List
+from datetime import datetime, timedelta
 from django.http import Http404
 from django.db.models import Q
 from apps.common.utils import PagedResult
@@ -19,6 +20,28 @@ class JobListingSelector():
     @staticmethod
     def get_job_listings_by_status(status: JobListingState) -> List[JobListing]:
         return JobListing.objects.filter(status=status).all()
+
+    @staticmethod
+    def get_job_listings_ready_for_publish() -> List[JobListing]:
+        return JobListing.objects.filter(
+            Q(status=JobListingState.PREPUBLISH) &
+            Q(date_to_publish__lte=datetime.now())
+        )
+
+    @staticmethod
+    def get_job_listings_ready_for_expiry() -> List[JobListing]:
+        return JobListing.objects.filter(
+            Q(status=JobListingState.PUBLISHED) &
+            Q(date_to_expire__lte=datetime.now())
+        )
+
+    @staticmethod
+    def get_job_listings_ready_for_archive() -> List[JobListing]:
+        return JobListing.objects.filter(
+            (Q(status=JobListingState.CLOSED) |
+             Q(status=JobListingState.EXPIRED)) &
+            Q(date_closed__lte=(datetime.now() - timedelta(days=30)))
+        )
 
     @staticmethod
     def get_paged_job_listings(filter: JobListingSearchFilterSerializer) -> PagedResult:
