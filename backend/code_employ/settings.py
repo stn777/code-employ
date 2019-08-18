@@ -49,6 +49,14 @@ CELERY_BEAT_SCHEDULE = {
     'publish_job_listings': {
         'task': 'apps.job_listing.tasks.publish_job_listings',
         'schedule': crontab(hour='*', minute='1')
+    },
+    'expire_published_job_listings': {
+        'task': 'apps.job_listing.tasks.expire_published_job_listings',
+        'schedule': crontab(minute='0', hour='2')
+    },
+    'archive_closed_and_expired_job_listings': {
+        'task': 'apps.job_listing.tasks.archive_closed_and_expired_job_listings',
+        'schedule': crontab(minute='0', hour='2')
     }
 }
 
