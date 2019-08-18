@@ -54,4 +54,5 @@ class JobListingPublishView(APIView):
 
 class JobListingCloseView(APIView):
     def put(self, request, id):
-        pass
+        JobListingService.close_job_listing(id)
+        return Response(status=status.HTTP_200_OK)

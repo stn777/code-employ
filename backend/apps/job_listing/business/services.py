@@ -1,4 +1,5 @@
 from typing import List
+from django.utils import timezone
 from django_fsm import can_proceed
 from rest_framework.exceptions import APIException
 from apps.common.business.selectors import TagSelector
@@ -40,6 +41,15 @@ class JobListingService():
         job_listing.pre_publish()
         job_listing.date_to_publish = serializer.data.get('date_to_publish')
         job_listing.date_to_expire = serializer.data.get('date_to_expire')
+        job_listing.save()
+
+    @staticmethod
+    def close_job_listing(id: int):
+        job_listing = JobListingSelector.get_job_listing_by_id(id)
+        if not can_proceed(job_listing.close):
+            raise APIException("Cannot close this job listing")
+        job_listing.close()
+        job_listing.closed_date = timezone.now()
         job_listing.save()
 
     @staticmethod
