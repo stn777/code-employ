@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Button from '@material-ui/core/Button'
 import * as styles from './styles.module.scss';
 
 export interface HelloProps { }
@@ -7,6 +8,10 @@ export interface HelloProps { }
 // State is never set so we use the '{}' type.
 export class Hello extends React.Component<HelloProps, {}> {
     render() {
-        return <h1 className={styles.root}>Hello from React!!</h1>;
+        return (
+            <Button variant="contained" color="primary">
+                Material UI
+            </Button>
+        );
     }
 }
