@@ -1,11 +1,14 @@
 import * as React from "react";
-import JobsList from "../../components/Jobs/JobsList/JobsListContainer";
+import { JobsListContainer as JobsList } from "../../components/Jobs/JobsList";
+import { Grid } from "@material-ui/core";
 
-const JobsListPage = () => {
+const JobsListPage = () => (
   <div>
-    <h1>Available Jobs</h1>
-    <JobsList />
-  </div>;
-};
+    <Grid item>
+      <h1>Available Jobs</h1>
+      <JobsList />
+    </Grid>
+  </div>
+);
 
 export default JobsListPage;

@@ -18,3 +18,8 @@ export interface JobListingSearchResponse {
   recordCount: number;
   items: JobListing[];
 }
+
+export interface NavBarItem {
+  label: string;
+  route: string;
+}

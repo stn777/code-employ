@@ -5,7 +5,7 @@ interface Props {
   jobListings: JobListingSearchResponse;
 }
 
-export const JobsList: React.SFC<Props> = ({ jobListings }) => {
+const JobsList: React.SFC<Props> = ({ jobListings }) => {
   const { recordCount, items } = jobListings;
   return (
     <div>
@@ -18,3 +18,5 @@ export const JobsList: React.SFC<Props> = ({ jobListings }) => {
     </div>
   );
 };
+
+export default JobsList;

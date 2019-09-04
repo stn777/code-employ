@@ -1,5 +1,5 @@
 import * as React from "react";
-import { JobsList } from "./JobsList";
+import JobsList from "./JobsList";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../../store";
 import { JobListingSearchResponse } from "../../../common/types";
