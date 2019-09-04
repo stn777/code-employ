@@ -6,7 +6,7 @@ import {
 
 const initialState: JobListingsState = {
   jobListings: {
-    record_count: 0,
+    recordCount: 0,
     items: []
   }
 };

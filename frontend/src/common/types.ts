@@ -1,19 +1,20 @@
 export interface JobListing {
-  job_title: string;
+  id: number;
+  jobTitle: string;
   description: string;
-  position_type: number;
-  contract_length: number;
+  positionType: number;
+  contractLength: number;
   salary: number;
-  salary_frequency: number;
+  salaryFrequency: number;
   city: string;
-  post_code: string;
+  postCode: string;
   status: number;
-  closed_date: Date;
-  created_date: Date;
-  modified_date: Date;
+  closedDate: Date;
+  createdDate: Date;
+  modifiedDate: Date;
 }
 
 export interface JobListingSearchResponse {
-  record_count: number;
+  recordCount: number;
   items: JobListing[];
 }
