@@ -12,9 +12,8 @@ from .serializers import (
 
 class JobListingPagedListView(APIView):
     def post(self, request):
-        search_filter = JobListingSearchFilterSerializer(data={})
-        if not search_filter.is_valid():
-            raise Exception
+        search_filter = JobListingSearchFilterSerializer(data=request.data)
+        search_filter.is_valid(raise_exception=True)
         search_response = JobListingSelector.get_paged_job_listings(
             search_filter)
         serialized = JobListingSearchResponseSerializer(search_response)
@@ -30,14 +29,16 @@ class JobListingView(APIView):
 
 class JobListingCreateView(APIView):
     def post(self, request):
-        serialized = JobListingEditSerializer(request.data)
+        serialized = JobListingEditSerializer(data=request.data)
+        serialized.is_valid(raise_exception=True)
         job_listing_id = JobListingService.create_job_listing(serialized)
         return Response(job_listing_id)
 
 
 class JobListingEditView(APIView):
     def put(self, request, id):
-        serialized = JobListingEditSerializer(request.data)
+        serialized = JobListingEditSerializer(data=request.data)
+        serialized.is_valid(raise_exception=True)
         job_listing_id = JobListingService.update_job_listing(id, serialized)
         return Response(job_listing_id)
 
@@ -50,7 +51,8 @@ class JobListingDeleteView(APIView):
 
 class JobListingPublishView(APIView):
     def put(self, request, id):
-        serialized = JobListingPublishSerializer(request.data)
+        serialized = JobListingPublishSerializer(data=request.data)
+        serialized.is_valid(raise_exception=True)
         JobListingService.pre_publish_job_listing(id, serialized)
         return Response(status=status.HTTP_200_OK)
 
