@@ -53,7 +53,8 @@ class JobListingSelector():
                 Q(description__contains=filter.data['keyword'])
             )
         if 'position_type' in filter.data:
-            query &= Q(position_type=JobPositionType(filter.data['position_type']))
+            query &= Q(position_type=JobPositionType(
+                filter.data['position_type']))
         if 'salary_min' in filter.data:
             query &= Q(salary__gte=filter.data['salary_min'])
         if 'salary_max' in filter.data:

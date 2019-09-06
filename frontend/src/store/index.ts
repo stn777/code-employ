@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from "redux";
+import { combineReducers } from "redux";
 import jobListings from "./jobListings/reducers";
 import { JobListingsState } from "./jobListings/types";
 

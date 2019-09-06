@@ -12,8 +12,11 @@ from .serializers import (
 
 class JobListingPagedListView(APIView):
     def post(self, request):
-        search_filter = JobListingSearchFilterSerializer(request.data)
-        search_response = JobListingSelector.get_paged_job_listings(search_filter)
+        search_filter = JobListingSearchFilterSerializer(data={})
+        if not search_filter.is_valid():
+            raise Exception
+        search_response = JobListingSelector.get_paged_job_listings(
+            search_filter)
         serialized = JobListingSearchResponseSerializer(search_response)
         return Response(serialized.data)
 

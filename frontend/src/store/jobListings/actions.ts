@@ -1,6 +1,7 @@
 import { LOAD_JOB_LISTINGS_SUCCESS, JobListingsActionTypes } from "./types";
 import { JobListingSearchResponse } from "../../common/types";
 import { Dispatch, Action, ActionCreator } from "redux";
+import * as jobListingApi from "../../api/jobListingApi";
 
 export const loadJobListingsSuccess: ActionCreator<Action> = (
   jobListings: JobListingSearchResponse
@@ -14,11 +15,11 @@ export const loadJobListingsSuccess: ActionCreator<Action> = (
 export const loadJobListings: any = () => {
   return async (dispatch: Dispatch) => {
     try {
-      //TODO: Add service to communicate with API
-      let jobListings: JobListingSearchResponse;
-      dispatch(loadJobListingsSuccess(jobListings));
+      return jobListingApi.searchJobListings(null).then(jobListings => {
+        dispatch(loadJobListingsSuccess(jobListings));
+      });
     } catch (err) {
-      console.error(err);
+      throw new Error(err);
     }
   };
 };

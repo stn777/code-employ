@@ -4,6 +4,7 @@ djangorestframework
 django-enumchoicefield
 django-fsm
 django-enumfields
+django-cors-headers
 celery
 redis
 requests
