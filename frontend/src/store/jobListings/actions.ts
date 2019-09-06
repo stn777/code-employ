@@ -6,7 +6,7 @@ import {
 import { Dispatch, Action, ActionCreator } from "redux";
 import * as jobListingApi from "../../api/jobListingApi";
 
-export const loadJobListingsSuccess: ActionCreator<Action> = (
+export const loadJobListingsSuccess = (
   jobListings: JobListingSearchResponse
 ): JobListingsActionTypes => {
   return {
@@ -15,7 +15,7 @@ export const loadJobListingsSuccess: ActionCreator<Action> = (
   };
 };
 
-export const loadJobListings: any = (filter: JobListingSearchFilter) => {
+export const loadJobListings = (filter: JobListingSearchFilter) => {
   return async (dispatch: Dispatch) => {
     try {
       return jobListingApi.searchJobListings(filter).then(jobListings => {

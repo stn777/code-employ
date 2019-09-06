@@ -6,13 +6,31 @@
   "scripts": {
     "dev": "rm -rf dist/*; webpack --mode=development --watch",
     "prod": "rm -rf dist/*; webpack --mode=production",
+    "test": "jest --watch",
+    "test:ci": "jest",
     "start": "./scripts/start"
+  },
+  "jest": {
+    "verbose": true,
+    "setupFiles": [
+      "./utils/testSetup.ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest",
+      "^.+\\.(css|scss|less)$": "jest-css-modules"
+    },
+    "moduleDirectories": [
+      "node_modules"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@material-ui/core": "^4.4.0",
+    "@types/enzyme": "^3.10.3",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.18",
     "@types/lodash": "^4.14.138",
     "@types/react": "^16.9.1",
     "@types/react-dom": "^16.8.5",
@@ -20,8 +38,12 @@
     "@types/react-router-dom": "^4.3.4",
     "@types/redux-immutable-state-invariant": "^2.1.1",
     "css-loader": "3.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.9.0",
+    "jest-css-modules": "^2.1.0",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "0.8.0",
     "node-sass": "4.12.0",
@@ -33,6 +55,7 @@
     "sass-loader": "7.2.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "1.0.0",
+    "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
     "url-loader": "^2.1.0",

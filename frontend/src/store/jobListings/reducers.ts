@@ -12,7 +12,7 @@ const initialState: JobListingsState = {
 };
 
 export default function jobListingsReducer(
-  state = initialState,
+  state: JobListingsState = initialState,
   action: JobListingsActionTypes
 ): JobListingsState {
   switch (action.type) {
