@@ -27,6 +27,8 @@ matrix:
     - language: node_js
       node_js:
         - 9
+      before_install:
+        - cd frontend
       cache:
         directories:
           - node_modules
