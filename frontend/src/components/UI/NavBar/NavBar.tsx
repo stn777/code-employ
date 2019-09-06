@@ -13,7 +13,7 @@ const NavBar: React.SFC<Props> = ({ navItems }) => (
     <ListItem component="div">
       {navItems.map(item => {
         return (
-          <ListItemText inset>
+          <ListItemText key={item.route} inset>
             <TypoGraphy variant="h6">
               <Link color="inherit" component={RouterLink} to={item.route}>
                 {item.label}
