@@ -14,8 +14,26 @@ export interface JobListing {
   modifiedDate: Date;
 }
 
-export interface JobListingSearchResponse {
+export interface PaginationFilter {
+  currentPage: number;
+  itemsPerPage: number;
+  orderByColumn: string;
+  orderDirection: boolean;
+}
+
+export interface PagedResponse {
   recordCount: number;
+}
+
+export interface JobListingSearchFilter extends PaginationFilter {
+  keyword: string;
+  languages: number[];
+  positionType: number;
+  salaryMin: number;
+  salaryMax: number;
+}
+
+export interface JobListingSearchResponse extends PagedResponse {
   items: JobListing[];
 }
 

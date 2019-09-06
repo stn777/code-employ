@@ -1,10 +1,13 @@
 import { postApi } from "./apiUtils";
-import { JobListingSearchResponse } from "../common/types";
+import {
+  JobListingSearchResponse,
+  JobListingSearchFilter
+} from "../common/types";
 
 const baseUrl = process.env.API_URL + "/job-listing";
 
 export async function searchJobListings(
-  filter: any
+  filter: JobListingSearchFilter
 ): Promise<JobListingSearchResponse> {
   return await postApi<JobListingSearchResponse>(
     `${baseUrl}/paged`,

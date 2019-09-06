@@ -25,7 +25,7 @@ class LocationCountryCodeSerializer(serializers.ModelSerializer):
 
 
 class PaginationFilterSerializer(serializers.Serializer):
-    current_page = serializers.IntegerField(default=1, initial=1)
+    current_page = serializers.IntegerField(default=1)
     items_per_page = serializers.IntegerField(default=15)
     order_by_column = serializers.CharField(max_length=100, default='id')
     order_direction = serializers.BooleanField(default=False)
