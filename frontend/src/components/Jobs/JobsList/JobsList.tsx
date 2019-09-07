@@ -1,5 +1,7 @@
 import * as React from "react";
-import { JobListingSearchResponse } from "../../../common/types";
+import { JobListingSearchResponse, JobListing } from "../../../common/types";
+import JobsListItem from "../JobsListItem";
+import { Grid, Typography } from "@material-ui/core";
 
 interface Props {
   jobListings: JobListingSearchResponse;
@@ -8,14 +10,20 @@ interface Props {
 const JobsList: React.SFC<Props> = ({ jobListings }) => {
   const { recordCount, items } = jobListings;
   return (
-    <div>
-      <p>Total records: {recordCount}</p>
-      <ul>
+    <>
+      <Typography>
+        Showing {items.length} of {recordCount}
+      </Typography>
+      <Grid container spacing={3}>
         {items.map(job => {
-          return <li key={job.id}>{job.jobTitle}</li>;
+          return (
+            <Grid key={job.id} item xs={12}>
+              <JobsListItem jobListing={job} />
+            </Grid>
+          );
         })}
-      </ul>
-    </div>
+      </Grid>
+    </>
   );
 };
 

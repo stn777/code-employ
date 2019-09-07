@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "rm -rf dist/*; webpack --mode=development --watch",
     "prod": "rm -rf dist/*; webpack --mode=production",
-    "test": "jest --watch",
     "test:ci": "jest",
     "start": "./scripts/start"
   },

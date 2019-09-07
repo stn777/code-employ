@@ -1,4 +1,4 @@
-import { mapKeys, camelCase, snakeCase } from "lodash";
+import { camelCase, transform, snakeCase } from "lodash";
 
 export async function getApi<T>(url: string, param: any): Promise<T> {
   const response = await fetch(`${url}/${param}`).catch(error => {
@@ -46,8 +46,14 @@ function handleResponse<T>(response: Response) {
 }
 
 //TODO: add a proper parser in the backend to allow the frontend to be used with any backend
-const snakeCaseToCamelCase = (json: Object): Object =>
-  mapKeys(json, (v, k) => camelCase(k));
+const snakeCaseToCamelCase = (json: any): Object =>
+  transform(json, (result: any, value: any, key: string) => {
+    result[camelCase(key)] =
+      value instanceof Object ? snakeCaseToCamelCase(value) : value;
+  });
 
 const camelCaseToSnakeCase = (json: Object): Object =>
-  mapKeys(json, (v, k) => snakeCase(k));
+  transform(json, (result: any, value: any, key: string) => {
+    result[snakeCase(key)] =
+      value instanceof Object ? camelCaseToSnakeCase(value) : value;
+  });
