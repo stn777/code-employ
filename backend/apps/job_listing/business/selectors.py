@@ -2,7 +2,7 @@ from typing import List
 from datetime import datetime, timedelta
 from django.http import Http404
 from django.db.models import Q
-from apps.common.managers import PagedResult
+from apps.core.managers import PagedResult
 from ..enums import JobPositionType, JobListingState
 from ..models import JobListing
 from ..api.serializers import JobListingSearchFilterSerializer

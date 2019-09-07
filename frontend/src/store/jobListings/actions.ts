@@ -3,7 +3,7 @@ import {
   JobListingSearchResponse,
   JobListingSearchFilter
 } from "../../common/types";
-import { Dispatch, Action, ActionCreator } from "redux";
+import { Dispatch } from "redux";
 import * as jobListingApi from "../../api/jobListingApi";
 
 export const loadJobListingsSuccess = (
@@ -15,7 +15,7 @@ export const loadJobListingsSuccess = (
   };
 };
 
-export const loadJobListings = (filter: JobListingSearchFilter) => {
+export const loadJobListings: any = (filter: JobListingSearchFilter) => {
   return async (dispatch: Dispatch) => {
     try {
       return jobListingApi.searchJobListings(filter).then(jobListings => {

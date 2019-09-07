@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime, date, timedelta
 from django_fsm import FSMIntegerField, transition
 from enumchoicefield import EnumChoiceField
-from apps.common.managers import ModelManager
+from apps.core.managers import ModelManager
 from .enums import JobPositionType, SalaryFrequency, JobListingState
 
 

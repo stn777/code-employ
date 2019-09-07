@@ -22,7 +22,8 @@ def insert_country_codes(self):
                     'name': country.name
                 }
             )
-            new_country_id = LocationService.insert_country_code(serialized_country)
+            new_country_id = LocationService.insert_country_code(
+                serialized_country)
             for subdivision in pycountry.subdivisions.get(country_code=country.data['code']):
                 if not any(existing.code == subdivision.code for existing in existing_states):
                     serialized_state = LocationStateCodeSerializer(
@@ -32,4 +33,5 @@ def insert_country_codes(self):
                             'type': subdivision.type
                         }
                     )
-                LocationService.insert_state_code(new_country_id, serialized_state)
+                LocationService.insert_state_code(
+                    new_country_id, serialized_state)
