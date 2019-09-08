@@ -5,6 +5,7 @@ import {
 } from "../../common/types";
 import { Dispatch } from "redux";
 import * as jobListingApi from "../../api/jobListingApi";
+import { beginApiCall, apiCallError } from "../apiStatus/actions";
 
 export const loadJobListingsSuccess = (
   jobListings: JobListingSearchResponse
@@ -18,11 +19,13 @@ export const loadJobListingsSuccess = (
 export const loadJobListings: any = (filter: JobListingSearchFilter) => {
   return async (dispatch: Dispatch) => {
     try {
+      dispatch(beginApiCall());
       return jobListingApi.searchJobListings(filter).then(jobListings => {
         dispatch(loadJobListingsSuccess(jobListings));
       });
     } catch (err) {
-      throw new Error(err);
+      dispatch(apiCallError());
+      throw err;
     }
   };
 };
