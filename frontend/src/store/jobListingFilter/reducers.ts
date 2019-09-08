@@ -10,7 +10,7 @@ const initialState: JobListingsFilterState = {
   jobListingsFilter: {
     currentPage: 1,
     itemsPerPage: 15,
-    orderByColumn: "createdDate",
+    orderByColumn: "created_date",
     orderDirection: false,
     keyword: ""
   } as JobListingSearchFilter

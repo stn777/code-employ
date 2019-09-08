@@ -46,7 +46,8 @@ class JobListingEditSerializer(serializers.Serializer):
 
 
 class JobListingSearchFilterSerializer(PaginationFilterSerializer):
-    keyword = serializers.CharField(max_length=100, required=False)
+    keyword = serializers.CharField(
+        max_length=100, allow_blank=True, required=False)
     languages = serializers.ListField(
         child=serializers.CharField(),
         required=False

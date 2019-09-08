@@ -11,23 +11,29 @@ import {
 
 interface Props {
   jobListings: JobListingSearchResponse;
+  filter: JobListingSearchFilter;
   loadJobListings: (filter: JobListingSearchFilter) => Promise<void>;
 }
 
 const JobsListContainer: React.SFC<Props> = ({
   jobListings,
+  filter,
   loadJobListings
 }) => {
-  let filter: JobListingSearchFilter;
   React.useEffect(() => {
     loadJobListings(filter).catch(error => {
       console.log(error);
     });
-  }, []);
+  }, [filter]);
   return <JobsList jobListings={jobListings} />;
 };
 
-const mapStateToProps = (state: ApplicationState) => state.jobListings;
+const mapStateToProps = (state: ApplicationState) => {
+  return {
+    jobListings: state.jobListings.jobListings,
+    filter: state.jobListingsFilter.jobListingsFilter
+  };
+};
 const mapDispatchtoProps = (dispatch: Dispatch) => {
   const actions = {
     loadJobListings: (filter: JobListingSearchFilter) =>
