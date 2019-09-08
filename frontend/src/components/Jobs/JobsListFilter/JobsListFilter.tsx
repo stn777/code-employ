@@ -1,10 +1,11 @@
 import * as React from "react";
 import { JobListingSearchFilter } from "../../../common/types";
-import { Paper, Typography, Grid } from "@material-ui/core";
+import { Paper, Typography, Grid, Box } from "@material-ui/core";
+import TextInput from "../../UI/TextInput";
 
 interface Props {
   jobListingsFilter: JobListingSearchFilter;
-  onUpdateFilter: (filter: JobListingSearchFilter) => void;
+  onUpdateFilter: (e: any) => void;
   onClearFilter: () => void;
 }
 
@@ -15,7 +16,17 @@ const JobsListFilter: React.SFC<Props> = ({
 }) => {
   return (
     <Paper>
-      <Typography variant="h5">Filter</Typography>
+      <Box p={3}>
+        <Typography variant="h5">Filter</Typography>
+        <Box py={3}>
+          <TextInput
+            label="Keyword"
+            value={jobListingsFilter.keyword}
+            placeholder="Enter a keyword..."
+            onChange={onUpdateFilter}
+          />
+        </Box>
+      </Box>
     </Paper>
   );
 };
