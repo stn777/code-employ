@@ -2,14 +2,16 @@ import * as React from "react";
 import { TextField } from "@material-ui/core";
 
 interface Props {
+  name: string;
+  value: string;
   type?: string;
   label?: string;
-  value: string;
   placeholder?: string;
   onChange?: (e: any) => void;
 }
 
 const TextInput: React.SFC<Props> = ({
+  name,
   type,
   label,
   value,
@@ -17,6 +19,7 @@ const TextInput: React.SFC<Props> = ({
   onChange
 }) => (
   <TextField
+    name={name}
     type={type}
     label={label}
     value={value}

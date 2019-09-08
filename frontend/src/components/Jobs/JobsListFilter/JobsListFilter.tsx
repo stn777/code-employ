@@ -20,6 +20,7 @@ const JobsListFilter: React.SFC<Props> = ({
         <Typography variant="h5">Filter</Typography>
         <Box py={3}>
           <TextInput
+            name="keyword"
             label="Keyword"
             value={jobListingsFilter.keyword}
             placeholder="Enter a keyword..."
