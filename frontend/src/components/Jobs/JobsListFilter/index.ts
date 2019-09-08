@@ -1,3 +1,4 @@
+import JobsListFilterContainer from "./JobsListFilterContainer";
 import JobsListFilter from "./JobsListFilter";
 
-export default JobsListFilter;
+export { JobsListFilterContainer, JobsListFilter };

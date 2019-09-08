@@ -19,7 +19,7 @@ const JobsListFilterContainer: React.SFC<Props> = ({
 }) => {
   return (
     <JobsListFilter
-      jobsListingsFilter={jobListingsFilter}
+      jobListingsFilter={jobListingsFilter}
       onUpdateFilter={onUpdateFilter}
       onClearFilter={onClearFilter}
     />
