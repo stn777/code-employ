@@ -31,7 +31,7 @@ const mapStateToProps = (state: ApplicationState) => state.jobListings;
 const mapDispatchtoProps = (dispatch: Dispatch) => {
   const actions = {
     loadJobListings: (filter: JobListingSearchFilter) =>
-      dispatch(jobListingActions.loadJobListings())
+      dispatch(jobListingActions.loadJobListings(filter))
   };
   return actions;
 };
