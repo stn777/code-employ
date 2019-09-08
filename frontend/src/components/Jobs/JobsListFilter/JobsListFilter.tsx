@@ -1,6 +1,6 @@
 import * as React from "react";
 import { JobListingSearchFilter } from "../../../common/types";
-import { Paper, Typography, Grid, Box } from "@material-ui/core";
+import { Paper, Typography, Grid, Box, Button } from "@material-ui/core";
 import TextInput from "../../UI/TextInput";
 
 interface Props {
@@ -27,6 +27,9 @@ const JobsListFilter: React.SFC<Props> = ({
             onChange={onUpdateFilter}
           />
         </Box>
+        <Button variant="contained" onClick={onClearFilter}>
+          Clear
+        </Button>
       </Box>
     </Paper>
   );

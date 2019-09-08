@@ -30,5 +30,5 @@ it("should handle clearing the Job Listings filter", () => {
   store.dispatch(action);
 
   const newState = store.getState().jobListingsFilter.jobListingsFilter;
-  expect(newState.keyword).toBeUndefined();
+  expect(newState.keyword).toEqual("");
 });

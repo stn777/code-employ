@@ -30,5 +30,5 @@ it("should return an empty jobListingSearchFilter when passed CLEAR_JOB_LISTINGS
   const action = actions.clearJobListingsFilter();
   const newState = jobListingsFilterReducer(initialState, action);
 
-  expect(newState.jobListingsFilter.keyword).toBeUndefined();
+  expect(newState.jobListingsFilter.keyword).toEqual("");
 });
