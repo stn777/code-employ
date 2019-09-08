@@ -22,7 +22,7 @@ matrix:
         - psql -c 'create user codeemploy SUPERUSER LOGIN CREATEDB' -U postgres
         - psql -c 'create database codeemploy' -U postgres
       script:
-        - python manage.py test
+        - python3 manage.py test
 
     - language: node_js
       node_js:
