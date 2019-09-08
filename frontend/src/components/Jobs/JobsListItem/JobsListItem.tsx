@@ -11,9 +11,12 @@ const JobsListItem: React.SFC<Props> = ({ jobListing }) => {
     <Card>
       <CardHeader
         title={jobListing.jobTitle}
-        subheader={`${jobListing.city}, ${jobListing.stateName}`}
+        subheader={jobListing.companyName}
       />
       <CardContent>
+        <Typography variant="body1" color="textPrimary" component="p">
+          {jobListing.city}, {jobListing.stateName}
+        </Typography>
         <Typography variant="body1" color="textSecondary" component="p">
           {jobListing.description}
         </Typography>
