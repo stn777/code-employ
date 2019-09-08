@@ -53,6 +53,24 @@ export interface JobListing {
   modifiedDate: Date;
 }
 
+export interface JobListingList {
+  id: number;
+  companyName: string;
+  jobTitle: string;
+  description: string;
+  positionType: string;
+  contractLength: number;
+  salary: number;
+  salaryFrequency: string;
+  languages: string[];
+  city: string;
+  stateName: string;
+  countryName: string;
+  postCode: string;
+  tags: string[];
+  createdDate: Date;
+}
+
 export interface PaginationFilter {
   currentPage: number;
   itemsPerPage: number;
@@ -73,7 +91,7 @@ export interface JobListingSearchFilter extends PaginationFilter {
 }
 
 export interface JobListingSearchResponse extends PagedResponse {
-  items: JobListing[];
+  items: JobListingList[];
 }
 
 export interface NavBarItem {

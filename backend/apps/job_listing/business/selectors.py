@@ -4,7 +4,7 @@ from django.http import Http404
 from django.db.models import Q
 from apps.core.managers import PagedResult
 from ..enums import JobPositionType, JobListingState
-from ..models import JobListing
+from ..models import JobListing, JobListingList
 from ..api.serializers import JobListingSearchFilterSerializer
 
 
@@ -60,6 +60,6 @@ class JobListingSelector():
         if 'salary_max' in filter.data:
             query &= Q(salary__lte=filter.data['salary_max'])
         if 'languages' in filter.data:
-            query &= Q(languages__id__in=filter.data['languages'])
+            query &= Q(languages__contained_by=filter.data['languages'])
 
-        return JobListing.objects.get_paginated(query, filter)
+        return JobListingList.objects.get_paginated(query, filter)

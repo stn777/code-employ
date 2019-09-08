@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import JobListing
+from ..models import JobListing, JobListingList
 from apps.company.api.serializers import CompanySerializer
 from apps.common.api.serializers import (
     ProgrammingLanguageSerializer, PaginationFilterSerializer,
@@ -16,6 +16,12 @@ class JobListingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JobListing
+        fields = '__all__'
+
+
+class JobListingListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobListingList
         fields = '__all__'
 
 
@@ -42,7 +48,7 @@ class JobListingEditSerializer(serializers.Serializer):
 class JobListingSearchFilterSerializer(PaginationFilterSerializer):
     keyword = serializers.CharField(max_length=100, required=False)
     languages = serializers.ListField(
-        child=serializers.IntegerField(),
+        child=serializers.CharField(),
         required=False
     )
     position_type = serializers.IntegerField(required=False)
@@ -51,7 +57,7 @@ class JobListingSearchFilterSerializer(PaginationFilterSerializer):
 
 
 class JobListingSearchResponseSerializer(PagedResponseSerializer):
-    items = JobListingSerializer(many=True)
+    items = JobListingListSerializer(many=True)
 
 
 class JobListingPublishSerializer(serializers.Serializer):

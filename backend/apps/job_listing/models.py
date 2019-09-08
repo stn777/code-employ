@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from datetime import datetime, date, timedelta
 from django_fsm import FSMIntegerField, transition
 from enumchoicefield import EnumChoiceField
@@ -47,7 +48,6 @@ class JobListing(models.Model):
     closed_date = models.DateTimeField(null=True)
     created_date = models.DateTimeField(null=False, auto_now_add=True)
     modified_date = models.DateTimeField(null=True, auto_now=True)
-    objects = ModelManager()
 
     def can_publish(self):
         return self.date_to_publish <= datetime.now()
@@ -100,6 +100,34 @@ class JobListing(models.Model):
     )
     def archive(self):
         pass
+
+
+class JobListingList(models.Model):
+    '''Postgres database view'''
+    id = models.BigIntegerField(primary_key=True)
+    company_name = models.TextField()
+    job_title = models.TextField()
+    description = models.TextField()
+    position_type = EnumChoiceField(
+        enum_class=JobPositionType
+    )
+    contract_length = models.IntegerField()
+    salary = models.IntegerField()
+    salary_frequency = EnumChoiceField(
+        enum_class=SalaryFrequency
+    )
+    languages = ArrayField(models.TextField())
+    city = models.TextField()
+    state_name = models.TextField()
+    country_name = models.TextField()
+    post_code = models.TextField()
+    tags = ArrayField(models.TextField())
+    created_date = models.DateTimeField()
+    objects = ModelManager()
+
+    class Meta:
+        managed = False
+        db_table = 'job_listing_joblistinglistview'
 
 
 class JobListingLanguage(models.Model):

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { JobsListContainer as JobsList } from "../../components/Jobs/JobsList";
-import { Grid, Typography, Paper } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 
 const JobsListPage = () => (
   <div>

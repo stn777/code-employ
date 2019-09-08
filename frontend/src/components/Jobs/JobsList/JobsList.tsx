@@ -1,5 +1,5 @@
 import * as React from "react";
-import { JobListingSearchResponse, JobListing } from "../../../common/types";
+import { JobListingSearchResponse } from "../../../common/types";
 import JobsListItem from "../JobsListItem";
 import { Grid, Typography } from "@material-ui/core";
 

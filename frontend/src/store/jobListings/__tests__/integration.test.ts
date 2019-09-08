@@ -1,13 +1,16 @@
 import { createStore } from "redux";
 import { rootReducer } from "../..";
 import * as actions from "../actions";
-import { JobListing, JobListingSearchResponse } from "../../../common/types";
+import {
+  JobListingList,
+  JobListingSearchResponse
+} from "../../../common/types";
 
 it("Should handle loading Job Listings", () => {
   const store = createStore(rootReducer);
   const jobListings: JobListingSearchResponse = {
     recordCount: 1,
-    items: <JobListing[]>[{ jobTitle: "A" }]
+    items: <JobListingList[]>[{ jobTitle: "A" }]
   };
 
   const action = actions.loadJobListingsSuccess(jobListings);

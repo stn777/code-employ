@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.db.models import Q
 from rest_framework.test import APITransactionTestCase, APIClient
 from rest_framework.views import status
-from ..models import JobListing, JobListingLanguage
+from ..models import JobListing, JobListingLanguage, JobListingList
 from ..api.serializers import JobListingSearchResponseSerializer
 from ..enums import JobPositionType, SalaryFrequency
 from apps.company.models import Company
@@ -114,8 +114,8 @@ class GetJobListingListTests(JobListingListViewTest):
             data=request_body
         )
 
-        expected_items = JobListing.objects.all()[0:20]
-        expected_count = JobListing.objects.all().count()
+        expected_items = JobListingList.objects.all()[0:20]
+        expected_count = JobListingList.objects.all().count()
 
         expected_result = PagedResult(
             items=expected_items,
@@ -136,7 +136,7 @@ class GetJobListingListTests(JobListingListViewTest):
         """
 
         keyword_filter = 'developer'
-        language_filter = [1]
+        language_filter = ['Python']
         position_type_filter = JobPositionType.CONTRACT.value
         salary_min_filter = 0
         salary_max_filter = 850
@@ -160,14 +160,14 @@ class GetJobListingListTests(JobListingListViewTest):
         expected_filter = (
             (Q(job_title__contains=keyword_filter) |
              Q(description__contains=keyword_filter)) &
-            Q(languages__id__in=language_filter) &
+            Q(languages__contained_by=language_filter) &
             Q(position_type=JobPositionType(position_type_filter)) &
             Q(salary__gte=salary_min_filter) &
             Q(salary__lte=salary_max_filter)
         )
 
-        expected_items = JobListing.objects.filter(expected_filter)[0:20]
-        expected_count = JobListing.objects.all().count()
+        expected_items = JobListingList.objects.filter(expected_filter)[0:20]
+        expected_count = JobListingList.objects.all().count()
 
         expected_result = PagedResult(
             items=expected_items,
@@ -201,8 +201,8 @@ class GetJobListingListTests(JobListingListViewTest):
             data=request_body
         )
 
-        expected_items = JobListing.objects.all().order_by('-salary')[0:20]
-        expected_count = JobListing.objects.all().count()
+        expected_items = JobListingList.objects.all().order_by('-salary')[0:20]
+        expected_count = JobListingList.objects.all().count()
 
         expected_result = PagedResult(
             items=expected_items,

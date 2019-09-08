@@ -1,6 +1,9 @@
 import jobListingsReducer from "../reducers";
 import * as actions from "../actions";
-import { JobListingSearchResponse, JobListing } from "../../../common/types";
+import {
+  JobListingSearchResponse,
+  JobListingList
+} from "../../../common/types";
 import { JobListingsState } from "../types";
 
 it("should return a paginated list of jobListings when passed LOAD_JOB_LISTINGS_SUCCESS", () => {
@@ -13,7 +16,7 @@ it("should return a paginated list of jobListings when passed LOAD_JOB_LISTINGS_
 
   const jobListings: JobListingSearchResponse = {
     recordCount: 1,
-    items: <JobListing[]>[{ jobTitle: "A" }]
+    items: <JobListingList[]>[{ jobTitle: "A" }]
   };
 
   const action = actions.loadJobListingsSuccess(jobListings);
