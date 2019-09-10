@@ -121,7 +121,7 @@ DATABASES = {
         'NAME': 'codeemploy',
         'USER': 'codeemploy',
         'HOST': os.getenv('DB_HOST'),
-        'POST': 5432
+        'PORT': 5432
     }
 }
 
